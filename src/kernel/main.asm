@@ -3,6 +3,20 @@ bits 16
 
 %define ENDL 0x0D, 0x0A
 
+;
+; FAT12 header
+jmp short start
+nop 
+
+
+
+; registers 
+; CS - currently running code segment 
+; DS - data segment 
+; SS - stack segment 
+; ES, FS, GS - extra (data) segments
+
+
 
 start:
 	jmp main
