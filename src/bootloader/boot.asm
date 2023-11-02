@@ -130,7 +130,6 @@ wait_key_and_reboot:
 ;
 
 lba_to_chs:
-
 	push ax
 	push dx
 	
@@ -162,7 +161,6 @@ lba_to_chs:
 ;	- dl: drive number
 ;	- es:bx: memory address where to store read data 
 disk_read:
-	
 	push ax					; save registers we will modify
 	push bx				
 	push cx
