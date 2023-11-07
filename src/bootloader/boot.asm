@@ -42,35 +42,6 @@ ebr_system_id:              db "FAT12   "           ; 8 bytes
 ;
 
 start:
-	jmp main
-
-
-;
-; Prints a string to the screen.
-; Params: 
-;	- ds:si points to string
-puts:
-	; save register we will modify
-	push si
-	push ax
-
-.loop 
-	lodsb         ; loads next character in al
-	or al, al     ; verify if next character is null?
-	jz .done 
-
-	mov ah, 0x0e  ; call bios interrupt
-	mov bh, 0
-	int 0x10
-
-	jmp .loop
-
-.done: 
-	pop ax
-	pop si
-	ret 
-
-main:
 	; setup data segments
 	mov ax, 0		; can't write to ds/es directly
 	mov ds, ax
@@ -80,18 +51,38 @@ main:
 	mov ss, ax
 	mov sp, 0x7C00	; stack grows downwards from where we are loaded in memory
 
+	; some BIOSes might start us at 07CO:0000 instead of 0000:7c000, make sure we
+	; are in the expected location
+	push es
+	push word .after
+	retf 
+	
+.after: 
+
 	; read something from floppy disk 
 	; BIOS should set DL to drive number 
 	mov [ebr_drive_number], dl
 
-	mov ax, 1		; LBA=1, second sector from disk 
-	mov cl, 1		; 1 sector to read 
-	mov bx, 0x7E00		; data should be after bootloader 
-	call disk_read
+	; show loading message 
+	mov si, msg_hello 
+	call puts 
 
-	; print message
-	mov si, msg_hello
-	call puts
+	; read drive parameters (sectors per track and head count), 
+	; instead of relying on data on formatted disk 
+	push es 
+	mov ah, 08h 
+	int 13h
+	jc floppy_error 
+	pop es 
+
+
+	and cl, 0x3F		; remove top 2 bits 
+	xor ch, ch 
+	mov [bdb_sectors_per_track], cx		; sector count
+
+
+	inc dh 
+	mov [bdb_heads], dh			; head count
 
 	cli			; disable interrupts, this way the CPU can't get out of "halt" state 
 	hlt
@@ -221,7 +212,7 @@ disk_reset:
 
 
 
-msg_hello:		db "Hello World!", ENDL, 0
+msg_loading:		db "Loading...", ENDL, 0
 msg_read_failed:	db "Read from disk failed!", ENDL, 0
 
 
