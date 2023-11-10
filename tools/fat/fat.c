@@ -93,7 +93,7 @@ DirectoryEntry *findFile(const char *name) {
   return NULL;
 }
 
-int main(int argc, char **, argv) {
+int main(int argc, char **argv) {
   if (argc < 3) {
     printf("Syntax %s <disk image> <file name>\n", argv[0]);
     return -1;
@@ -116,21 +116,21 @@ int main(int argc, char **, argv) {
     return -3;
   }
 
-  if (!readRootDirectory(disk) {
+  if (!readRootDirectory(disk)) {
     fprintf(stderr, "Could not read FAT!\n");
     free(g_Fat);
     free(g_RootDirectory);
     return -4;
   }
 
-  DirectoryEntry* fileEntry = findFile(argv[2]);
+  DirectoryEntry *fileEntry = findFile(argv[2]);
   if (!fileEntry) {
     fprintf(stderr, "Could not find file %s!\n", argv[2]);
     free(g_Fat);
     free(g_RootDirectory);
     return -5;
   }
-  
+
   free(g_Fat);
   free(g_RootDirectory);
   return 0;
