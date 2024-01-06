@@ -1,72 +1,45 @@
-org 0x7C00
+org 0x0
 bits 16
+
 
 %define ENDL 0x0D, 0x0A
 
-;
-; FAT12 header
-jmp short start
-nop 
-
-
-
-; registers 
-; CS - currently running code segment 
-; DS - data segment 
-; SS - stack segment 
-; ES, FS, GS - extra (data) segments
-
-
 
 start:
-	jmp main
-
-
-;
-; Prints a string to the screen.
-; Params: 
-;	- ds:si points to string
-puts:
-	; save register we will modify
-	push si
-	push ax
-
-.loop 
-	lodsb         ; loads next character in al
-	or al, al     ; verify if next character is null?
-	jz .done 
-
-	mov ah, 0x0e  ; call bios interrupt
-	mov bh, 0
-	int 0x10
-
-	jmp .loop
-
-.done: 
-	pop ax
-	pop si
-	ret 
-
-main:
-	; setup data segments
-	mov ax, 0		; can't write to ds/es directly
-	mov ds, ax
-	mov es, ax
-
-	; setup stack
-	mov ss, ax
-	mov sp, 0x7C00	; stack grows downwards from where we are loaded in memory
-
-	; print message
-	mov si, msg_hello
-	call puts
-
+    ; print hello world message
+    mov si, msg_hello
+    call puts
 
 .halt:
-	jmp .halt
+    cli
+    hlt
 
+;
+; Prints a string to the screen
+; Params:
+;   - ds:si points to string
+;
+puts:
+    ; save registers we will modify
+    push si
+    push ax
+    push bx
 
-msg_hello: db "Hello World!", ENDL, 0
+.loop:
+    lodsb               ; loads next character in al
+    or al, al           ; verify if next character is null?
+    jz .done
 
-times 510-($-$$) db 0
-dw 0AA55h
+    mov ah, 0x0E        ; call bios interrupt
+    mov bh, 0           ; set page number to 0
+    int 0x10
+
+    jmp .loop
+
+.done:
+    pop bx
+    pop ax
+    pop si    
+    ret
+
+msg_hello: db 'Hello world from KERNEL!', ENDL, 0

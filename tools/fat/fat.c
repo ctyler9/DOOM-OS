@@ -95,6 +95,7 @@ DirectoryEntry *findFile(const char *name) {
   return NULL;
 }
 
+<<<<<<< HEAD
 bool readFile(DirectoryEntry *fileEntry, FILE *disk, uint8_t *outputBuffer) {
   bool ok = true;
   uint16_t currentCluster = fileEntry->FirstClusterLow;
@@ -118,6 +119,8 @@ bool readFile(DirectoryEntry *fileEntry, FILE *disk, uint8_t *outputBuffer) {
   return ok;
 }
 
+=======
+>>>>>>> main
 int main(int argc, char **argv) {
   if (argc < 3) {
     printf("Syntax %s <disk image> <file name>\n", argv[0]);
@@ -156,6 +159,7 @@ int main(int argc, char **argv) {
     return -5;
   }
 
+<<<<<<< HEAD
   uint8_t *buffer =
       (uint8_t *)malloc(fileEntry->Size + g_BootSector.BytesPerSector);
   if (!readFile(fileEntry, disk, buffer)) {
@@ -176,6 +180,8 @@ int main(int argc, char **argv) {
   printf("\n");
 
   free(buffer);
+=======
+>>>>>>> main
   free(g_Fat);
   free(g_RootDirectory);
   return 0;
