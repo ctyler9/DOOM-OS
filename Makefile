@@ -1,10 +1,11 @@
 ASM=nasm
 CC=gcc
-TCC=tcc
 
 SRC_DIR=src
 TOOLS_DIR=tools
 BUILD_DIR=build
+
+
 
 .PHONY: all floppy_image kernel bootloader clean always tools_fat 
 
