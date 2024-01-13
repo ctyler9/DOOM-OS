@@ -104,8 +104,8 @@ flush:
     mov esp, 0x3000
     jmp 0x8:entry32
 
-bits 32    ; Specify 32-bit mode for the following code
 
+bits 32    ; Specify 32-bit mode for the following code
 entry32:
     ; Jump to the kernel loaded at 0x10000
     mov eax, 0x10000
@@ -115,7 +115,6 @@ _loop:
     jmp _loop
 
 bits 16    ; Specify 16-bit mode for the following code
-
 enable_a20_wait0:
     xor ax, ax
     in al, 0x64
@@ -157,7 +156,6 @@ print:
     pop ax 
     pop si 
     ret
-
 
 ; vars 
 drive_num: 
