@@ -46,12 +46,15 @@ clean:
 	$(AS) -o $@ -c $< $(GFLAGS) $(ASFLAGS)
 
 dirs:
+	@echo "created bin"
 	mkdir -p bin
 
 bootsect: $(BOOTSECT_OBJS)
+	@echo "making bootsect"
 	$(LD) -o ./bin/$(BOOTSECT) $^ -Ttext 0x7C00 --oformat=binary
 
 kernel: $(KERNEL_OBJS)
+	@echo "making kernel"
 	$(LD) -o ./bin/$(KERNEL) $^ $(LDFLAGS) -Tsrc/link.ld
 
 iso: dirs bootsect kernel

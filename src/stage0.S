@@ -23,7 +23,7 @@ _start:
 
     sti
 
-    /* should print TETRIS TIME */
+    /* should print DOOM OS */
     movw $welcome_str, %si
     call print
 
@@ -147,7 +147,7 @@ print:
 1:  ret
 
 welcome_str:
-    .asciz "TETRIS TIME\n"
+    .asciz "DOOM OS\n"
 disk_error_str:
     .asciz "DISK ERROR\n"
 
