@@ -1,5 +1,7 @@
-# Resources 
+# DOOM-OS 
+![Doom OS](images/doom-os.png)
 
+# Resources 
 https://wiki.osdev.org/Main_Page  
 https://sortix.org/  
 https://toaruos.org/      
