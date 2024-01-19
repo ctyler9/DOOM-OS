@@ -21,9 +21,11 @@ LDFLAGS=
 BOOTSECT_SRCS=\
 	src/stage0.S
 
+DOOM_SRCS= src/doom.c src/doom2.c
+
 BOOTSECT_OBJS=$(BOOTSECT_SRCS:.S=.o)
 
-KERNEL_C_SRCS=$(wildcard src/*.c)
+KERNEL_C_SRCS=$(filter-out $(DOOM_SRCS), $(wildcard src/*.c))
 KERNEL_S_SRCS=$(filter-out $(BOOTSECT_SRCS), $(wildcard src/*.S))
 KERNEL_OBJS=$(KERNEL_C_SRCS:.c=.o) $(KERNEL_S_SRCS:.S=.o)
 
@@ -62,7 +64,7 @@ doom: ./src/doom.c
 
 doom2: ./src/doom2.c
 	gcc -o ./bin/doom2 ./src/doom2.c -lncurses -lm
-	gcc ./bin/doom2.c $(ncursesw5-config --cflags) -o doom2 -lncursesw -lm
+	gcc ./src/doom2.c $(ncursesw5-config --cflags) -o /bin/doom2 -lncursesw -lm
 
 iso: dirs bootsect kernel
 	@echo "Creating boot.iso"
