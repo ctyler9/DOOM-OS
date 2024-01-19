@@ -51,17 +51,16 @@ int main() {
     float fElapsedTime = (float)elapsedTime;
 
     if (getch() == 'a') {
-      fPlayerA -= (0.1) * fElapsedTime;
-      printf("Hello");
+      fPlayerA -= (0.1); //* fElapsedTime;
     }
 
     if (getch() == 'd') {
-      fPlayerA += (0.1) * fElapsedTime;
+      fPlayerA += (0.1); // * fElapsedTime;
     }
 
     if (getch() == 'w') {
-      fPlayerX += sinf(fPlayerA) * 5.0 * fElapsedTime;
-      fPlayerY += cosf(fPlayerA) * 5.0 * fElapsedTime;
+      fPlayerX += sinf(fPlayerA) * 5.0; // * fElapsedTime;
+      fPlayerY += cosf(fPlayerA) * 5.0; // * fElapsedTime;
     }
 
     if (getch() == 's') {
@@ -79,8 +78,6 @@ int main() {
 
       float fEyeX = sinf(fRayAngle); // Unit vector for ray in player space
       float fEyeY = cosf(fRayAngle);
-
-      printf("%d", x);
 
       while (!bHitWall && fDistanceToWall < fDepth) {
         fDistanceToWall += 0.1;
@@ -123,7 +120,8 @@ int main() {
         if (y < nCeiling)
           mvprintw(y, x, " ");
         else if (y > nCeiling && y <= nFloor)
-          mvaddch(y, x, nShade);
+          // mvaddch(y, x, nShade);
+          mvprintw(y, x, "x");
         else
           mvprintw(y, x, " ");
       }
