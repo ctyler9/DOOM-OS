@@ -60,6 +60,10 @@ kernel: $(KERNEL_OBJS)
 doom: ./src/doom.c
 	gcc -o ./bin/doom ./src/doom.c -lncurses -lm
 
+doom2: ./src/doom2.c
+	gcc -o ./bin/doom2 ./src/doom2.c -lncurses -lm
+	gcc ./bin/doom2.c $(ncursesw5-config --cflags) -o doom2 -lncursesw -lm
+
 iso: dirs bootsect kernel
 	@echo "Creating boot.iso"
 	dd if=/dev/zero of=boot.iso bs=512 count=2880

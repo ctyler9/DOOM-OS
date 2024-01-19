@@ -104,15 +104,19 @@ int main() {
       int nFloor = nScreenHeight - nCeiling;
 
       // Shader walls based on distance
-      short nShade = ' ';
+      char nShade = ' ';
       if (fDistanceToWall <= fDepth / 4.0f)
-        nShade = 0x2588; // Very close
+        // nShade = 0x2588; // Very close
+        nShade = '#';
       else if (fDistanceToWall < fDepth / 3.0f)
-        nShade = 0x2593;
+        // nShade = 0x2593;
+        nShade = '&';
       else if (fDistanceToWall < fDepth / 2.0f)
-        nShade = 0x2592;
+        // nShade = 0x2592;
+        nShade = '%';
       else if (fDistanceToWall < fDepth)
-        nShade = 0x2591;
+        // nShade = 0x2591;
+        nShade = '-';
       else
         nShade = ' '; // Too far away
 
@@ -120,8 +124,8 @@ int main() {
         if (y < nCeiling)
           mvprintw(y, x, " ");
         else if (y > nCeiling && y <= nFloor)
-          // mvaddch(y, x, nShade);
-          mvprintw(y, x, "x");
+          mvaddch(y, x, nShade);
+        // mvprintw(y, x, nShade);
         else
           mvprintw(y, x, " ");
       }
